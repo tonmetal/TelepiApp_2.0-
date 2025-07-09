@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
+        <title>Calcula tu nómina</title>
+        <link rel="icon" href="/APP-Telepi-Repartidores/logo.png" sizes="512x512" type="image/png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Happy+Monkey&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <div class="app">
+            <h1>Calcula tu Nómina</h1>
+            <div class="formulario">
+                <label>Horas</label>
+                <input onfocus="limpiarValor(this)" type="number" id="horas" value="0" required min="0"  max="200" step="0.01">
+                <label>Pedidos</label>
+                <input onfocus="limpiarValor(this)" type="number" id="pedidos" value="0" required min="0" max="400" step="1" value="0" >
+                <label>Pedidos Bar</label>
+                <input onfocus="limpiarValor(this)" type="number" id="bar" value="0" required min="0" max="100" step="1" value="0">
+            </div>
+            <div class="botones">
+                <button onclick="calcular()">Calcular</button>
+                <button onclick="reset()">Reset</button>
+            </div>
+            <div class="resultado" id="resultado">Resultado: 0.00€</div>
+        </div>
+        <script src="index.js"></script>
+    </body>
+</html>
