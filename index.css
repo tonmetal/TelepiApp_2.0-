@@ -6,12 +6,37 @@ body{
     font-family: "Roboto", sans-serif;
 }
 
-h1{
+.app{
+    display: flex;
+    flex-direction: column;
+    width: 320px;
     margin: auto;
+    border-radius: 8px;
+    background-color: #bf0603;
+    padding: 40px 0px 20px;
+    box-shadow: 0 0px 10px rgb(63, 1, 1);
+}
+
+.nav{
+    width: 230px;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
     border-bottom: #f5f3f4 solid  1px;
-    width: 220px;
-    padding: 20px;
-    font-size: x-large;
+}
+
+.nav img{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    margin-bottom: 6px;
+}
+
+h1{
+    font-size: large;
+    margin: 10px 0 ;
 }
 
 .formulario{
@@ -46,7 +71,7 @@ h1{
     justify-content: center;
 }
 
-.botones button{
+button{
     margin: 10px;
     width: 110px;
     padding: 5px 15px;
@@ -58,13 +83,18 @@ h1{
     
 }
 
+#guardar{
+    display:block;
+    margin: 30px auto;
+}
+
 .resultado{
-    width: 230px;
+    width: 150px;
     display: block;
     margin: auto;
     margin-top: 20px;
     background-color: #f5483b;
-    text-align: start;
+    text-align: center;
     padding: 10px 10px;
     border-radius: 4px;
     font-weight: bold;
@@ -74,13 +104,32 @@ input:invalid {
     color: #8d0801;
 }
 
-.app{
+.nominas{
     display: flex;
     flex-direction: column;
+    justify-content: start;
+    text-align: end;
     width: 320px;
+    height: 370px;
     margin: auto;
+    margin-top: 20px;
     border-radius: 8px;
     background-color: #bf0603;
-    padding: 40px 0px 90px;
+    padding-top: 25px;
+    padding-right: 50px;
+    box-sizing: border-box;
     box-shadow: 0 0px 10px rgb(63, 1, 1);
+}
+
+#historial{
+    list-style: none;
+    color: #f5f3f4;
+    font-weight: bold;
+}
+
+#historial li{
+    margin-bottom: 10px;
+    background-color: #f5483b;
+    border-radius: 3px;
+    padding: 10px 10px;
 }

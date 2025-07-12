@@ -1,23 +1,27 @@
 
-let resultado = document.getElementById("resultado")
+const resultado = document.getElementById("resultado")
+let total = 0
 
 function calcular(){
-    let horas = parseFloat(document.getElementById("horas").value)
-    let pedidos = parseFloat(document.getElementById("pedidos").value)
-    let bar = parseFloat(document.getElementById("bar").value)
-    if (isNaN(horas) || horas <= 0.49 || horas > 200  ||  isNaN(pedidos) || pedidos < 0 || pedidos > 400 ||isNaN(bar) || bar < 0 || bar > 100 || !Number.isInteger(bar) ||!Number.isInteger(pedidos)){
+    let horas = Number(document.getElementById("horas").value)
+    let pedidos = Number(document.getElementById("pedidos").value)
+    let bar = Number(document.getElementById("bar").value)
+    if ( horas <= 0.49 || horas > 200  ||  
+        pedidos < 0 || pedidos > 400 ||
+        bar < 0 || bar > 100 || 
+        !Number.isInteger(bar) ||!Number.isInteger(pedidos)){
         alert("Por favor, ingresa valores válidos para todos los campos.");
         return
     }
-    let total = (horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)
-    resultado.textContent = "Resultado: " + total.toFixed(2) + "€"
+    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)).toFixed(2) + "€"
+    resultado.textContent = "Total: " + total
 }
 
 function reset(){
     horas.value = 0
     pedidos.value = 0
     bar.value = 0
-    resultado.textContent = "Resultado: 0.00€"
+    resultado.textContent = "Total: 0.00€"
 }
 
 function limpiarValor(input){
@@ -25,3 +29,22 @@ function limpiarValor(input){
         input.value = "";
     }
 }
+
+let nominas = []
+let historial = document.getElementById("historial")
+const guardar = document.getElementById("guardar")
+
+function render(a) {
+    let lista = ""
+    for (let i = 0; i < a.length; i++) {
+        lista += `<li>${a[i]}</li>`
+    }
+    historial.innerHTML = lista
+}
+
+guardar.addEventListener("click", function() {
+    nominas.push(total)
+    total = ""
+    render(nominas)
+    reset()
+})
