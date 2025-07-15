@@ -36,8 +36,14 @@ body{
 
 h1{
     font-size: large;
-    margin: 10px 0 ;
 }
+h2{
+    font-size: large;
+    text-align: center;
+    border-bottom: #f5f3f4 solid  1px;
+    margin-left: 40px;
+}
+
 
 .formulario{
     text-align: start;
@@ -107,9 +113,9 @@ input:invalid {
     justify-content: start;
     text-align: end;
     width: 320px;
-    height: 430px;
     margin: auto;
     margin-top: 20px;
+    padding-bottom: 20px;
     border-radius: 8px;
     background-color: #bf0603;
     padding-top: 25px;
@@ -127,6 +133,7 @@ input:invalid {
     background-color: #f5483b;
     border-radius: 3px;
     padding: 10px 10px;
+    height: 20px;
 }
 
 .botones-nom{

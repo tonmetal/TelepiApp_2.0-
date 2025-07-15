@@ -1,52 +1,57 @@
 
 const resultado = document.getElementById("resultado")
-const horas = document.getElementById("horas")
-const pedidos = document.getElementById("pedidos")
-const bar = document.getElementById("bar")
+const horasa = document.getElementById("horas")
+const pedidosa = document.getElementById("pedidos")
+const bara = document.getElementById("bar")
+const vacacionesa = document.getElementById("vacaciones")
+const guardar = document.getElementById("guardar")
+const reiniciar = document.getElementById("reiniciar")
+const borrar = document.getElementById("borrar")
+let historial = document.getElementById("historial")
 let total = ""
+let nominas = []
+let lista = ""
 
-
-horas.addEventListener("input",function calcular(){
-    let horas = Number(document.getElementById("horas").value)
-    let pedidos = Number(document.getElementById("pedidos").value)
-    let bar = Number(document.getElementById("bar").value)
+function calcular(){
+    let horas = Number(horasa.value)
+    let pedidos = Number(pedidosa.value)
+    let bar = Number(bara.value)
+    let vacaciones = Number(vacacionesa.value)
     if (  horas > 200  || pedidos > 400 || bar > 100 || 
         !Number.isInteger(bar) ||!Number.isInteger(pedidos)){
         return
     }
-    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)).toFixed(2) + "€"
-    resultado.textContent = "Total: " + total
-})
 
-pedidos.addEventListener("input",function calcular(){
-    let horas = Number(document.getElementById("horas").value)
-    let pedidos = Number(document.getElementById("pedidos").value)
-    let bar = Number(document.getElementById("bar").value)
-    if ( horas > 200  || pedidos > 400 || bar > 100 ||  
-        !Number.isInteger(bar) ||!Number.isInteger(pedidos)){
-        return
+    let suma = 0
+    for(let i = 0; i< nominas.length; i++){
+            suma += Number(nominas[i])
+        }
+
+        console.log(suma)
+    
+    let media = Number(suma / nominas.length)
+    console.log(media)
+
+
+    if(vacaciones === 0){
+    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)).toFixed(2) 
+    resultado.textContent = "Total: " + total + "€"
+    }else if (vacaciones > 0 && vacaciones <= 31){
+    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5) + (vacaciones *( media/30))).toFixed(2) + "€"
+    resultado.textContent = "Total: " + total    
     }
-    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)).toFixed(2) + "€"
-    resultado.textContent = "Total: " + total
-})
+}
 
-bar.addEventListener("input",function calcular(){
-    let horas = Number(document.getElementById("horas").value)
-    let pedidos = Number(document.getElementById("pedidos").value)
-    let bar = Number(document.getElementById("bar").value)
-    if ( horas > 200  || pedidos > 400 || bar > 100 ||  
-        !Number.isInteger(bar) ||!Number.isInteger(pedidos)){
-        return
-    }
-    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)).toFixed(2) + "€"
-    resultado.textContent = "Total: " + total
-})
-
+horas.addEventListener("input",calcular)
+pedidos.addEventListener("input", calcular)
+bar.addEventListener("input", calcular)
+vacaciones.addEventListener("input",  calcular )
 
 function reset(){
     horas.value = 0
     pedidos.value = 0
     bar.value = 0
+    vacaciones.value = 0
     resultado.textContent = "Total: 0.00€"
 }
 
@@ -56,19 +61,13 @@ function limpiarValor(input){
     }
 }
 
-let nominas = []
-let lista = ""
-let historial = document.getElementById("historial")
-const guardar = document.getElementById("guardar")
-const reiniciar = document.getElementById("reiniciar")
-const borrar = document.getElementById("borrar")
 
 function render(a) {
     
     if( nominas.length < 7){
     lista = ""
     for (let i = 0; i < a.length; i++) {
-        lista += `<li>${a[i]}</li>`
+        lista += `<li>${a[i]} €</li>`
     }
     historial.innerHTML = lista
 }
@@ -76,7 +75,13 @@ function render(a) {
 }
 
 guardar.addEventListener("click", function() {
-    if (total && nominas.length < 6){nominas.unshift(total)}
+    if (total && nominas.length < 6){
+        nominas.unshift(total)
+    }else if (total && nominas.length === 6){
+        nominas.unshift(total)
+        nominas.pop() 
+        
+    }
     total = ""
     render(nominas)
     reset()
@@ -86,6 +91,7 @@ guardar.addEventListener("click", function() {
 borrar.addEventListener("click", function() {
     nominas.shift()
     historial.innerHTML = lista
+    render(nominas)
     console.log(nominas)
 })
 
