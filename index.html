@@ -24,14 +24,17 @@
                 <input onfocus="limpiarValor(this)" type="number" id="bar" value="0" required min="0" max="100" step="1" value="0">
             </div>
             <div class="botones">
-                <button onclick="calcular()">Calcular</button>
+                <button id="guardar">Guardar</button>
                 <button onclick="reset()">Reset</button>
             </div>
             <div class="resultado" id="resultado">Total: 0.00€</div>
-            <button id="guardar">Guardar</button>
         </div>
-        <div class="nominas">
-        <ul id="historial"></ul>
+            <div class="nominas">
+            <ul id="historial"></ul>
+            <div class="botones-nom">
+                <button id="borrar">Borrar</button>
+                <button id="reiniciar">Reiniciar</button>
+            </div>
         </div>
         <script src="index.js"></script>
     </body>

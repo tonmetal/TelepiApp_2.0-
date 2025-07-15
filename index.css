@@ -83,10 +83,7 @@ button{
     
 }
 
-#guardar{
-    display:block;
-    margin: 30px auto;
-}
+
 
 .resultado{
     width: 150px;
@@ -110,7 +107,7 @@ input:invalid {
     justify-content: start;
     text-align: end;
     width: 320px;
-    height: 370px;
+    height: 430px;
     margin: auto;
     margin-top: 20px;
     border-radius: 8px;
@@ -121,15 +118,19 @@ input:invalid {
     box-shadow: 0 0px 10px rgb(63, 1, 1);
 }
 
-#historial{
+
+#historial li{
     list-style: none;
     color: #f5f3f4;
     font-weight: bold;
-}
-
-#historial li{
     margin-bottom: 10px;
     background-color: #f5483b;
     border-radius: 3px;
     padding: 10px 10px;
+}
+
+.botones-nom{
+    display: flex;
+    margin-left: 40px;
+
 }

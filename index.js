@@ -1,21 +1,47 @@
 
 const resultado = document.getElementById("resultado")
-let total = 0
+const horas = document.getElementById("horas")
+const pedidos = document.getElementById("pedidos")
+const bar = document.getElementById("bar")
+let total = ""
 
-function calcular(){
+
+horas.addEventListener("input",function calcular(){
     let horas = Number(document.getElementById("horas").value)
     let pedidos = Number(document.getElementById("pedidos").value)
     let bar = Number(document.getElementById("bar").value)
-    if ( horas <= 0.49 || horas > 200  ||  
-        pedidos < 0 || pedidos > 400 ||
-        bar < 0 || bar > 100 || 
+    if (  horas > 200  || pedidos > 400 || bar > 100 || 
         !Number.isInteger(bar) ||!Number.isInteger(pedidos)){
-        alert("Por favor, ingresa valores válidos para todos los campos.");
         return
     }
     total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)).toFixed(2) + "€"
     resultado.textContent = "Total: " + total
-}
+})
+
+pedidos.addEventListener("input",function calcular(){
+    let horas = Number(document.getElementById("horas").value)
+    let pedidos = Number(document.getElementById("pedidos").value)
+    let bar = Number(document.getElementById("bar").value)
+    if ( horas > 200  || pedidos > 400 || bar > 100 ||  
+        !Number.isInteger(bar) ||!Number.isInteger(pedidos)){
+        return
+    }
+    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)).toFixed(2) + "€"
+    resultado.textContent = "Total: " + total
+})
+
+bar.addEventListener("input",function calcular(){
+    let horas = Number(document.getElementById("horas").value)
+    let pedidos = Number(document.getElementById("pedidos").value)
+    let bar = Number(document.getElementById("bar").value)
+    if ( horas > 200  || pedidos > 400 || bar > 100 ||  
+        !Number.isInteger(bar) ||!Number.isInteger(pedidos)){
+        return
+    }
+    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)).toFixed(2) + "€"
+    resultado.textContent = "Total: " + total
+})
+
 
 function reset(){
     horas.value = 0
@@ -31,20 +57,41 @@ function limpiarValor(input){
 }
 
 let nominas = []
+let lista = ""
 let historial = document.getElementById("historial")
 const guardar = document.getElementById("guardar")
+const reiniciar = document.getElementById("reiniciar")
+const borrar = document.getElementById("borrar")
 
 function render(a) {
-    let lista = ""
+    
+    if( nominas.length < 7){
+    lista = ""
     for (let i = 0; i < a.length; i++) {
         lista += `<li>${a[i]}</li>`
     }
     historial.innerHTML = lista
 }
+    console.log(nominas)
+}
 
 guardar.addEventListener("click", function() {
-    nominas.push(total)
+    if (total && nominas.length < 6){nominas.unshift(total)}
     total = ""
     render(nominas)
     reset()
 })
+
+
+borrar.addEventListener("click", function() {
+    nominas.shift()
+    historial.innerHTML = lista
+    console.log(nominas)
+})
+
+reiniciar.addEventListener("click", function() {
+    nominas = []
+    historial.innerHTML = ""
+    console.log(nominas)
+})
+
