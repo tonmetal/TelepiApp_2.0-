@@ -86,15 +86,32 @@ guardar.addEventListener("click", function() {
 
 
 borrar.addEventListener("click", function() {
+
+    const confirmado = confirm("¿Estás seguro de que quieres continuar?")
+
+    if (confirmado) {
     nominas.shift()
     historial.innerHTML = lista
     render(nominas)
     console.log(nominas)
+    } else {
+    return
+    }
+
+
 })
 
 reiniciar.addEventListener("click", function() {
+
+    const confirmado = confirm("¿Estás seguro de que quieres continuar?")
+
+    if (confirmado) {
     nominas = []
     historial.innerHTML = ""
     console.log(nominas)
+    } else {
+    return
+    }
+
 })
 
