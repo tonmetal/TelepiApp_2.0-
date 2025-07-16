@@ -26,37 +26,34 @@ function calcular(){
     for(let i = 0; i< nominas.length; i++){
             suma += Number(nominas[i])
         }
-
-        console.log(suma)
     
     let media = Number(suma / nominas.length)
-    console.log(media)
 
 
     if(vacaciones === 0){
     total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)).toFixed(2) 
     resultado.textContent = "Total: " + total + "€"
     }else if (vacaciones > 0 && vacaciones <= 31){
-    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5) + (vacaciones *( media/30))).toFixed(2) + "€"
-    resultado.textContent = "Total: " + total    
+    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5) + (vacaciones *( media/30))).toFixed(2) 
+    resultado.textContent = "Total: " + total  + "€"  
     }
 }
 
-horas.addEventListener("input",calcular)
-pedidos.addEventListener("input", calcular)
-bar.addEventListener("input", calcular)
-vacaciones.addEventListener("input",  calcular )
+horasa.addEventListener("input",calcular)
+pedidosa.addEventListener("input", calcular)
+bara.addEventListener("input", calcular)
+vacacionesa.addEventListener("input",  calcular )
 
 function reset(){
-    horas.value = 0
-    pedidos.value = 0
-    bar.value = 0
-    vacaciones.value = 0
+    horasa.value = 0
+    pedidosa.value = 0
+    bara.value = 0
+    vacacionesa.value = 0
     resultado.textContent = "Total: 0.00€"
 }
 
 function limpiarValor(input){
-    if (input.value == "0"){
+    if (input.value == "0"){a
         input.value = "";
     }
 }

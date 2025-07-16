@@ -28,19 +28,17 @@
                 <label>Dias Vacaciones</label>
                 <input onfocus="limpiarValor(this)" type="number" id="vacaciones" value="0" required min="0" max="31" step="1" value="0">
             </div>
-            <div class="botones">
+            <div>
                 <button id="guardar">Guardar</button>
                 <button onclick="reset()">Reset</button>
             </div>
             <div class="resultado" id="resultado">Total: 0.00€</div>
-        </div>
-            
-            <div class="nominas">
-            <h2>Ultimas 6 nóminas</h2>
+            <h2>6 Ultimas Nóminas</h2>
+            <div class="border"></div>
             <ul id="historial">
                 <li></li>
             </ul>
-            <div class="botones-nom">
+            <div>
                 <button id="borrar">Borrar</button>
                 <button id="reiniciar">Reiniciar</button>
             </div>
