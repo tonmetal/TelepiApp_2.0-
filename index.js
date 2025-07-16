@@ -53,7 +53,7 @@ function reset(){
 }
 
 function limpiarValor(input){
-    if (input.value == "0"){a
+    if (input.value === "0"){
         input.value = "";
     }
 }
