@@ -1,9 +1,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1 >
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
         <title>Calcula tu nómina</title>
         <link rel="icon" href="/APP-Telepi-Repartidores/logo.png" sizes="512x512" type="image/png">
+        <link rel="manifest" href="/site.webmanifest">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Happy+Monkey&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -17,16 +18,16 @@
             </div>
             <div class="formulario">
                 <label>Horas</label>
-                <input onfocus="limpiarValor(this)" type="number" id="horas" value="0" required min="0"  max="200" step="0.01">
+                <input  type="number" id="horas" value="0" required min="0"  max="200" step="0.01">
 
                 <label>Pedidos</label>
-                <input onfocus="limpiarValor(this)" type="number" id="pedidos" value="0" required min="0" max="400" step="1" value="0" >
+                <input  type="number" id="pedidos" value="0" required min="0" max="400" step="1" value="0" >
 
                 <label>Pedidos Bar</label>
-                <input onfocus="limpiarValor(this)" type="number" id="bar" value="0" required min="0" max="100" step="1" value="0">
+                <input  type="number" id="bar" value="0" required min="0" max="100" step="1" value="0">
 
                 <label>Dias Vacaciones</label>
-                <input onfocus="limpiarValor(this)" type="number" id="vacaciones" value="0" required min="0" max="31" step="1" value="0">
+                <input  type="number" id="vacaciones" value="0" required min="0" max="31" step="1" value="0">
             </div>
             <div>
                 <button id="guardar">Guardar</button>
@@ -42,6 +43,6 @@
                 <button id="reiniciar">Limpiar</button>
             </div>
         </div>
-        <script src="index.js"></script>
+        <script type="module" src="index.js"></script>
     </body>
 </html>

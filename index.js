@@ -1,3 +1,18 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js"
+import { getDatabase,
+        ref,
+        push,
+        onValue,
+        remove } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js"
+
+const firebaseConfig = {
+    databaseURL: "https://leads-tracker-app-d1426-default-rtdb.europe-west1.firebasedatabase.app/"
+}
+
+const app = initializeApp(firebaseConfig)
+const database = getDatabase(app)
+const referenceInDB = ref(database, "nomina")
+
 
 const resultado = document.getElementById("resultado")
 const horasa = document.getElementById("horas")
@@ -11,6 +26,17 @@ let historial = document.getElementById("historial")
 let total = ""
 let nominas = []
 let lista = ""
+
+onValue(referenceInDB, function(snapshot) {
+    const snapshotDoesExist = snapshot.exists()
+    if (snapshotDoesExist) {
+        const  nomiValores = snapshot.val()
+        const nominas = Object.values(nomiValores)
+        render(nominas)
+    } 
+
+})
+
 
 function calcular(){
     let horas = Number(horasa.value)
@@ -52,11 +78,11 @@ function reset(){
     resultado.textContent = "Total: 0.00€"
 }
 
-function limpiarValor(input){
-    if (input.value === "0"){
-        input.value = "";
-    }
-}
+document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("focus", () => {
+    if (input.value === "0") input.value = "";
+    })
+})
 
 
 function render(a) {
@@ -71,14 +97,19 @@ function render(a) {
     console.log(nominas)
 }
 
+
+
+
 guardar.addEventListener("click", function() {
     if (total && nominas.length < 6){
         nominas.unshift(total)
+        push(referenceInDB, total)
     }else if (total && nominas.length === 6){
         nominas.unshift(total)
         nominas.pop() 
-        
+        push(referenceInDB, total)
     }
+    
     total = ""
     render(nominas)
     reset()
@@ -93,6 +124,7 @@ borrar.addEventListener("click", function() {
     nominas.shift()
     historial.innerHTML = lista
     render(nominas)
+    reset()
     console.log(nominas)
     } else {
     return
@@ -106,9 +138,11 @@ reiniciar.addEventListener("click", function() {
     const confirmado = confirm("¿Estás seguro de que quieres continuar?")
 
     if (confirmado) {
+    remove(referenceInDB)
     nominas = []
     historial.innerHTML = ""
     console.log(nominas)
+    reset()
     } else {
     return
     }
