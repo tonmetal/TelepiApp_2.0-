@@ -1,0 +1,11 @@
+{
+    "name": "Telepi App 2.0",
+    "short_name": "TelepiApp",
+    "icons":
+        [
+            {"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"}
+        ],
+    "theme_color": "#7a0903",
+    "background_color": "#7a0903",
+    "display": "standalone"
+}
