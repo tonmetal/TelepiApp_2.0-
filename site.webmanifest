@@ -1,9 +1,9 @@
 {
-    "name": "Telepi App 2.0",
-    "short_name": "TelepiApp",
+    "name": "Calcula tu Nómina",
+    "short_name": "Calcula tu Nómina",
     "icons":
         [
-            {"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"}
+            {"src":"/TelepiApp_2.0-/logo.png","sizes":"512x512","type":"image/png"}
         ],
     "theme_color": "#7a0903",
     "background_color": "#7a0903",
