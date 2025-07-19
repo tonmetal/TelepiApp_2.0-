@@ -1,9 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js"
-import { getDatabase,
-        ref,
-        push,
-        onValue,
-        remove } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js"
+import {
+    getDatabase,
+    ref,
+    push,
+    onValue,
+    remove,
+    set
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js"
 
 const firebaseConfig = {
     databaseURL: "https://leads-tracker-app-d1426-default-rtdb.europe-west1.firebasedatabase.app/"
@@ -13,7 +16,6 @@ const app = initializeApp(firebaseConfig)
 const database = getDatabase(app)
 const referenceInDB = ref(database, "nomina")
 
-
 const resultado = document.getElementById("resultado")
 const horasa = document.getElementById("horas")
 const pedidosa = document.getElementById("pedidos")
@@ -22,55 +24,64 @@ const vacacionesa = document.getElementById("vacaciones")
 const guardar = document.getElementById("guardar")
 const reiniciar = document.getElementById("reiniciar")
 const borrar = document.getElementById("borrar")
+const reseteo = document.getElementById("resetear")
 let historial = document.getElementById("historial")
+
 let total = ""
 let nominas = []
-let lista = ""
 
-onValue(referenceInDB, function(snapshot) {
-    const snapshotDoesExist = snapshot.exists()
-    if (snapshotDoesExist) {
-        const  nomiValores = snapshot.val()
-        const nominas = Object.values(nomiValores)
-        render(nominas)
-    } 
-
+// Sincronizar con Firebase en tiempo real
+onValue(referenceInDB, function (snapshot) {
+    if (snapshot.exists()) {
+        nominas = Object.values(snapshot.val())
+    } else {
+        nominas = []
+    }
+    render()
 })
 
-
-function calcular(){
+// Calcular total
+function calcular() {
     let horas = Number(horasa.value)
     let pedidos = Number(pedidosa.value)
     let bar = Number(bara.value)
     let vacaciones = Number(vacacionesa.value)
-    if (  horas > 200  || pedidos > 400 || bar > 100 || 
-        !Number.isInteger(bar) ||!Number.isInteger(pedidos)){
+
+    if (horas > 200 || pedidos > 400 || bar > 100 || !Number.isInteger(bar) || !Number.isInteger(pedidos)) {
         return
     }
 
-    let suma = 0
-    for(let i = 0; i< nominas.length; i++){
-            suma += Number(nominas[i])
-        }
-    
-    let media = Number(suma / nominas.length)
+    let suma = nominas.reduce((acc, val) => acc + Number(val), 0)
+    let media = nominas.length ? suma / nominas.length : 0
 
-
-    if(vacaciones === 0){
-    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)).toFixed(2) 
-    resultado.textContent = "Total: " + total + "€"
-    }else if (vacaciones > 0 && vacaciones <= 31){
-    total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5) + (vacaciones *( media/30))).toFixed(2) 
-    resultado.textContent = "Total: " + total  + "€"  
+    if (vacaciones > 0 && nominas.length === 0) {
+    alert("Para calcular vacaciones debes guardar al menos una nómina.")
+    vacacionesa.value = 0
+    return
     }
+
+    if (vacaciones === 0) {
+        total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5)).toFixed(2)
+    } else if (vacaciones > 0 && vacaciones <= 31) {
+        total = ((horas * 7.67) + (pedidos * 0.48) + (bar * 0.5) + (vacaciones * (media / 30))).toFixed(2)
+    }
+
+    resultado.textContent = "Total: " + total + "€"
 }
 
-horasa.addEventListener("input",calcular)
+horasa.addEventListener("input", calcular)
 pedidosa.addEventListener("input", calcular)
 bara.addEventListener("input", calcular)
-vacacionesa.addEventListener("input",  calcular )
+vacacionesa.addEventListener("input", calcular)
+reseteo.addEventListener("click", resetear )
 
-function reset(){
+document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("focus", () => {
+        if (input.value === "0") input.value = "";
+    })
+})
+
+function resetear() {
     horasa.value = 0
     pedidosa.value = 0
     bara.value = 0
@@ -78,74 +89,44 @@ function reset(){
     resultado.textContent = "Total: 0.00€"
 }
 
-document.querySelectorAll("input").forEach(input => {
-    input.addEventListener("focus", () => {
-    if (input.value === "0") input.value = "";
-    })
-})
-
-
-function render(a) {
-    
-    if( nominas.length < 7){
-    lista = ""
-    for (let i = 0; i < a.length; i++) {
-        lista += `<li>${a[i]} €</li>`
-    }
-    historial.innerHTML = lista
-}
-    console.log(nominas)
+function render() {
+    historial.innerHTML = nominas.slice(0, 6).map(val => `<li>${val} €</li>`).join("")
 }
 
+// Guardar en Firebase
+guardar.addEventListener("click", function () {
+    if (!total) return
 
+    nominas.unshift(total)
 
-
-guardar.addEventListener("click", function() {
-    if (total && nominas.length < 6){
-        nominas.unshift(total)
-        push(referenceInDB, total)
-    }else if (total && nominas.length === 6){
-        nominas.unshift(total)
-        nominas.pop() 
-        push(referenceInDB, total)
+    // Máximo 6 elementos
+    if (nominas.length > 6) {
+        nominas = nominas.slice(0, 6)
     }
-    
+
+    // Guardar array actualizado en Firebase
+    set(referenceInDB, nominas)
     total = ""
-    render(nominas)
-    reset()
+    resetear()
 })
 
+// Borrar la última nómina guardada (la más reciente)
+borrar.addEventListener("click", function () {
+    const confirmado = confirm("¿Estás seguro de que quieres eliminar la última nómina guardada?")
+    if (!confirmado) return
 
-borrar.addEventListener("click", function() {
-
-    const confirmado = confirm("¿Estás seguro de que quieres continuar?")
-
-    if (confirmado) {
     nominas.shift()
-    historial.innerHTML = lista
-    render(nominas)
-    reset()
-    console.log(nominas)
-    } else {
-    return
-    }
 
-
+    set(referenceInDB, nominas)
+    resetear()
 })
 
-reiniciar.addEventListener("click", function() {
+// Reiniciar todo
+reiniciar.addEventListener("click", function () {
+    const confirmado = confirm("¿Seguro que quieres borrar TODO?")
+    if (!confirmado) return
 
-    const confirmado = confirm("¿Estás seguro de que quieres continuar?")
-
-    if (confirmado) {
     remove(referenceInDB)
-    nominas = []
-    historial.innerHTML = ""
-    console.log(nominas)
-    reset()
-    } else {
-    return
-    }
-
+    resetear()
 })
 
